@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chatx</title>
+    <script defer src="/client/index.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>hello</h1>
+    <input type="text" id="message-in" placeholder="message">
+    <button id="send-btn">Send</button>
+    <br>
+    <div id="messages-in"></div>
+    <script>
+        const socket = io()
+        const SendBtn = document.getElementById('send-btn')
+        const messageInput = document.getElementById('message-in')
+        const allMessages = document.getElementById("messages-in");
+
+        socket.on("message", (message) => {
+            const messageElement = document.createElement("div")
+            messageElement.innerText = message
+            // console.log(message)
+            allMessages.appendChild(messageElement)
+        })
+        
+        SendBtn.addEventListener('click', e => {
+            const message = messageInput.value
+            console.log(message)
+            socket.emit('user-message', message)
+            messageInput.value = ''
+        })
+    </script>
+</body>
+</html>
+
